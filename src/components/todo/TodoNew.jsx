@@ -11,7 +11,6 @@ const TodoNew = (props) => {
         setValueInput("");
     };
     const handleOnChange = (name) => {
-        console.log(">>> handle on change", name);
         setValueInput(name);
     };
     return (
