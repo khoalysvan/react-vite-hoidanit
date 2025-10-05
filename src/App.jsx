@@ -3,7 +3,8 @@ import TodoData from "./components/todo/TodoData";
 import "./components/todo/todo.css";
 import reactLogo from "./assets/react.svg";
 import { useState } from "react";
-
+import Header from "./components/layout/header";
+import Footer from "./components/layout/footer";
 const App = () => {
     const [todoList, setTodoList] = useState([
         // { id: 1, name: "Learning React" },
@@ -29,17 +30,21 @@ const App = () => {
         setTodoList(newTodo);
     };
     return (
-        <div className="todo-container">
-            <div className="todo-title">Todo List</div>
-            <TodoNew addNewTodo={addNewTodo} />
-            {todoList.length > 0 ? (
-                <TodoData todoList={todoList} deleteTodo={deleteTodo} />
-            ) : (
-                <div className="todo-image">
-                    <img src={reactLogo} className="logo" alt="logo" />
-                </div>
-            )}
-        </div>
+        <>
+            <Header />
+            <div className="todo-container">
+                <div className="todo-title">Todo List</div>
+                <TodoNew addNewTodo={addNewTodo} />
+                {todoList.length > 0 ? (
+                    <TodoData todoList={todoList} deleteTodo={deleteTodo} />
+                ) : (
+                    <div className="todo-image">
+                        <img src={reactLogo} className="logo" alt="logo" />
+                    </div>
+                )}
+            </div>
+            <Footer />
+        </>
     );
 };
 
