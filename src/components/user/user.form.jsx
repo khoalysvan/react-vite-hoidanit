@@ -21,7 +21,7 @@ const UserForm = (props) => {
                 description: "Tạo mới user thành công",
             });
             resetAndCloseModal();
-            props.loadUser();
+            await loadUser();
         } else {
             notification.error({
                 message: "Error create user",
