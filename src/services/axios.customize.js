@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
 // Add a request interceptor
@@ -12,6 +12,7 @@ instance.interceptors.request.use(
     },
     function (error) {
         // Do something with request error
+
         return Promise.reject(error);
     }
 );
@@ -21,6 +22,7 @@ instance.interceptors.response.use(
     function (response) {
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
+        debugger;
         console.log(">>> check response: ", response);
         if (response.data && response.data.data) return response.data;
         return response;
@@ -28,6 +30,7 @@ instance.interceptors.response.use(
     function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
+        if (error.response && error.response.data) return error.response.data;
         return Promise.reject(error);
     }
 );
