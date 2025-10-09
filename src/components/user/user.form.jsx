@@ -11,7 +11,7 @@ const UserForm = (props) => {
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
 
-    const [isModalOpen, setIsModelOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleSubmitBtn = async () => {
         const res = await createUserAPI(fullName, email, password, phone);
@@ -31,7 +31,7 @@ const UserForm = (props) => {
     };
 
     const resetAndCloseModal = () => {
-        setIsModelOpen(false);
+        setIsModalOpen(false);
         setFullName("");
         setEmail("");
         setPassword("");
@@ -41,7 +41,7 @@ const UserForm = (props) => {
         <div className="user-form" style={{ margin: "20px 0" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <h3>Table Users</h3>
-                <Button type="primary" onClick={() => setIsModelOpen(true)}>
+                <Button type="primary" onClick={() => setIsModalOpen(true)}>
                     Create User
                 </Button>
             </div>
