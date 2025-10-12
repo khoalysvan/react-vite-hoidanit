@@ -6,7 +6,15 @@ import { useState } from "react";
 import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
-    const { dataUsers, loadUser } = props;
+    const {
+        dataUsers,
+        loadUser,
+        current,
+        pageSize,
+        total,
+        setCurrent,
+        setPageSize,
+    } = props;
 
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 
@@ -34,8 +42,7 @@ const UserTable = (props) => {
         {
             title: "STT",
             render: (_, record, index) => {
-                console.log(">>> check index: ", index);
-                return <>{index + 1}</>;
+                return <>{index + 1 + (current - 1) * pageSize}</>;
             },
         },
         {
@@ -92,10 +99,49 @@ const UserTable = (props) => {
             ),
         },
     ];
+    const onChange = (pagination, filters, sorter, extra) => {
+        //setCurrent, setPageSize
+        //nếu thay đổi trang: current
+        if (pagination && pagination.current) {
+            if (+pagination.current !== +current) {
+                setCurrent(+pagination.current); // "5" => 5
+            }
+        }
+        if (pagination && pagination.pageSize) {
+            if (+pagination.pageSize !== +pageSize) {
+                setPageSize(+pagination.pageSize); // "5" => 5
+            }
+        }
 
+        console.log(">>> check onchange: ", {
+            pagination,
+            filters,
+            sorter,
+            extra,
+        });
+    };
     return (
         <>
-            <Table columns={columns} dataSource={dataUsers} rowKey={"_id"} />
+            <Table
+                columns={columns}
+                dataSource={dataUsers}
+                rowKey={"_id"}
+                pagination={{
+                    current: current,
+                    pageSize: pageSize,
+                    showSizeChanger: true,
+                    total: total,
+                    showTotal: (total, range) => {
+                        return (
+                            <div>
+                                {" "}
+                                {range[0]}-{range[1]} trên {total} rows
+                            </div>
+                        );
+                    },
+                }}
+                onChange={onChange}
+            />
             <UpdateUserModal
                 isModalUpdateOpen={isModalUpdateOpen}
                 setIsModalUpdateOpen={setIsModalUpdateOpen}
