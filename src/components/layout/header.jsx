@@ -1,9 +1,5 @@
-import { Outlet, Link, NavLink } from "react-router-dom";
-import {
-    HomeOutlined,
-    UsergroupAddOutlined,
-    BookOutlined,
-} from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { HomeOutlined, UsergroupAddOutlined, BookOutlined, SettingFilled } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 const Header = () => {
@@ -28,16 +24,18 @@ const Header = () => {
             key: "books",
             icon: <BookOutlined />,
         },
+        {
+            label: "Cài đặt",
+            key: "settings",
+            icon: <SettingFilled />,
+            children: [
+                { label: <Link to={"/login"}>Đăng nhập</Link>, key: "login" },
+                { label: "Đăng xuất", key: "logout" },
+            ],
+        },
     ];
 
-    return (
-        <Menu
-            onClick={onClick}
-            selectedKeys={[current]}
-            mode="horizontal"
-            items={items}
-        />
-    );
+    return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
 };
 
 export default Header;
