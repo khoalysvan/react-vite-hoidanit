@@ -1,11 +1,16 @@
 import { Link } from "react-router-dom";
 import { HomeOutlined, UsergroupAddOutlined, BookOutlined, SettingFilled } from "@ant-design/icons";
 import { Menu } from "antd";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/auth.contex";
+
 const Header = () => {
-    const [current, setCurrent] = useState("home");
+    const [current, setCurrent] = useState("");
+
+    const { user, setUser } = useContext(AuthContext);
+
+    console.log(">>> check user: ", user);
     const onClick = (e) => {
-        console.log("click ", e);
         setCurrent(e.key);
     };
     const items = [

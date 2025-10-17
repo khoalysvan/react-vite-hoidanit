@@ -2,19 +2,24 @@ import { ArrowRightOutlined } from "@ant-design/icons";
 import { Input, Button, Form, notification, Row, Col, Divider, message } from "antd";
 import { Link } from "react-router-dom";
 import { loginAPI } from "../services/api.service";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../components/context/auth.contex";
 
 const LoginPage = () => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const { setUser } = useContext(AuthContext);
     const onFinish = async (values) => {
         setLoading(true);
         console.log(">>> check values: ", values);
         const res = await loginAPI(values.email, values.password);
         if (res.data) {
             message.success("Đăng nhập thành công");
+            localStorage.setItem("access_token", res.data.access_token);
+            setUser(res.data.user);
             navigate("/");
         } else {
             notification.error({
