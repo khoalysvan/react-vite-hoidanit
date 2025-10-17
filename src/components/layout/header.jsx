@@ -25,6 +25,7 @@ const Header = () => {
     const handleLogout = async () => {
         const res = await logoutAPI();
         if (res.data) {
+            //clear access_token
             localStorage.removeItem("access_token");
             setUser({
                 email: "",
