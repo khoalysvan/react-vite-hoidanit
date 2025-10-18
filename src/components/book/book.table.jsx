@@ -1,9 +1,14 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { notification, Popconfirm, Table } from "antd";
 import { deleteBookAPI } from "../../services/api.service";
+import ViewBookDetail from "./view.book.detail";
+import { useState } from "react";
 
 const BookTable = (props) => {
     const { dataBooks, loadBook, current, pageSize, total, setCurrent, setPageSize } = props;
+
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [dataDetail, setDataDetail] = useState(null);
 
     const handleDeleteBook = async (id) => {
         alert("me");
@@ -37,7 +42,8 @@ const BookTable = (props) => {
                     <a
                         href="#"
                         onClick={() => {
-                            alert("me");
+                            setDataDetail(record);
+                            setIsDetailOpen(true);
                         }}
                     >
                         {record._id}
@@ -107,26 +113,35 @@ const BookTable = (props) => {
         }
     };
     return (
-        <Table
-            dataSource={dataBooks}
-            columns={columns}
-            rowKey={"_id"}
-            pagination={{
-                current: current,
-                pageSize: pageSize,
-                showSizeChanger: true,
-                total: total,
-                showTotal: (total, range) => {
-                    return (
-                        <div>
-                            {" "}
-                            {range[0]}-{range[1]} trên {total} rows
-                        </div>
-                    );
-                },
-            }}
-            onChange={onChange}
-        />
+        <>
+            <Table
+                dataSource={dataBooks}
+                columns={columns}
+                rowKey={"_id"}
+                pagination={{
+                    current: current,
+                    pageSize: pageSize,
+                    showSizeChanger: true,
+                    total: total,
+                    showTotal: (total, range) => {
+                        return (
+                            <div>
+                                {" "}
+                                {range[0]}-{range[1]} trên {total} rows
+                            </div>
+                        );
+                    },
+                }}
+                onChange={onChange}
+            />
+            <ViewBookDetail
+                dataDetail={dataDetail}
+                setDataDetail={setDataDetail}
+                isDetailOpen={isDetailOpen}
+                setIsDetailOpen={setIsDetailOpen}
+                loadBook={loadBook}
+            />
+        </>
     );
 };
 export default BookTable;
