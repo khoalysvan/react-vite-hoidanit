@@ -1,18 +1,9 @@
 import { Drawer, Button, notification } from "antd";
 import { useState } from "react";
-import {
-    handleUploadFile,
-    updateUserAvatarAPI,
-} from "../../services/api.service";
+import { handleUploadFile, updateUserAvatarAPI } from "../../services/api.service";
 
 const ViewUserDetail = (props) => {
-    const {
-        dataDetail,
-        setDataDetail,
-        isDetailOpen,
-        setIsDetailOpen,
-        loadUser,
-    } = props;
+    const { dataDetail, setDataDetail, isDetailOpen, setIsDetailOpen, loadUser } = props;
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -34,7 +25,6 @@ const ViewUserDetail = (props) => {
     const handleUpdateUserAvatar = async () => {
         //step 1: upload file
         const resUpload = await handleUploadFile(selectedFile, "avatar");
-        console.log(">>> check resUpload: ", resUpload);
         if (resUpload.data) {
             const newAvatar = resUpload.data.fileUploaded;
             console.log(">>> check newAvatar: ", newAvatar);
@@ -105,9 +95,9 @@ const ViewUserDetail = (props) => {
                                 width: "100%",
                                 objectFit: "contain",
                             }}
-                            src={`${
-                                import.meta.env.VITE_BACKEND_URL
-                            }/images/avatar/${dataDetail.avatar}`}
+                            src={`${import.meta.env.VITE_BACKEND_URL}/images/avatar/${
+                                dataDetail.avatar
+                            }`}
                         />
                     </div>
                     <div>
@@ -124,12 +114,7 @@ const ViewUserDetail = (props) => {
                         >
                             Upload avatar
                         </label>
-                        <input
-                            type="file"
-                            hidden
-                            id="btnUpload"
-                            onChange={handleOnChangeFile}
-                        />
+                        <input type="file" hidden id="btnUpload" onChange={handleOnChangeFile} />
                     </div>
                     {preview && (
                         <>
@@ -150,10 +135,7 @@ const ViewUserDetail = (props) => {
                                     src={preview}
                                 />
                             </div>
-                            <Button
-                                type="primary"
-                                onClick={() => handleUpdateUserAvatar()}
-                            >
+                            <Button type="primary" onClick={() => handleUpdateUserAvatar()}>
                                 Save
                             </Button>
                         </>

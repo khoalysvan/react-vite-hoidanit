@@ -1,15 +1,31 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { notification, Popconfirm, Table } from "antd";
-import { deleteBookAPI } from "../../services/api.service";
+import { Button, notification, Popconfirm, Table } from "antd";
+import { deleteBookAPI, fetchAllBookAPI } from "../../services/api.service";
 import ViewBookDetail from "./view.book.detail";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import CreateBookControl from "./create.book.control";
 
 const BookTable = (props) => {
-    const { dataBooks, loadBook, current, pageSize, total, setCurrent, setPageSize } = props;
+    const [dataBooks, setDataBooks] = useState([]);
+    const [current, setCurrent] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+    const [total, setTotal] = useState(0);
 
     const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [dataDetail, setDataDetail] = useState(null);
 
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
+    useEffect(() => {
+        loadBook();
+    }, [current, pageSize]);
+
+    const loadBook = async () => {
+        const res = await fetchAllBookAPI(current, pageSize);
+        setDataBooks(res.data.result);
+        setCurrent(res.data.meta.current);
+        setPageSize(res.data.meta.pageSize);
+        setTotal(res.data.meta.total);
+    };
     const handleDeleteBook = async (id) => {
         alert("me");
         // const res = await deleteBookAPI(id);
@@ -114,6 +130,14 @@ const BookTable = (props) => {
     };
     return (
         <>
+            <div className="book-form " style={{ margin: "20px 0" }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <h3>Table Books</h3>
+                    <Button type="primary" onClick={() => setIsCreateOpen(true)}>
+                        Create Book
+                    </Button>
+                </div>
+            </div>
             <Table
                 dataSource={dataBooks}
                 columns={columns}
@@ -139,6 +163,11 @@ const BookTable = (props) => {
                 setDataDetail={setDataDetail}
                 isDetailOpen={isDetailOpen}
                 setIsDetailOpen={setIsDetailOpen}
+                loadBook={loadBook}
+            />
+            <CreateBookControl
+                isCreateOpen={isCreateOpen}
+                setIsCreateOpen={setIsCreateOpen}
                 loadBook={loadBook}
             />
         </>
