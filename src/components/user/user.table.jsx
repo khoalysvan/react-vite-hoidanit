@@ -6,15 +6,7 @@ import { useState } from "react";
 import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
-    const {
-        dataUsers,
-        loadUser,
-        current,
-        pageSize,
-        total,
-        setCurrent,
-        setPageSize,
-    } = props;
+    const { dataUsers, loadUser, current, pageSize, total, setCurrent, setPageSize } = props;
 
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 
@@ -91,9 +83,7 @@ const UserTable = (props) => {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <DeleteOutlined
-                            style={{ cursor: "pointer", color: "red" }}
-                        />
+                        <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />
                     </Popconfirm>
                 </div>
             ),
@@ -112,13 +102,6 @@ const UserTable = (props) => {
                 setPageSize(+pagination.pageSize); // "5" => 5
             }
         }
-
-        console.log(">>> check onchange: ", {
-            pagination,
-            filters,
-            sorter,
-            extra,
-        });
     };
     return (
         <>
