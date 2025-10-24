@@ -5,6 +5,7 @@ import ViewBookDetail from "./view.book.detail";
 import { useEffect, useState } from "react";
 import CreateBookControl from "./create.book.control";
 import CreateBookUncontrol from "./create.book.uncontrol";
+import UpdateBookControl from "./update.book.control";
 
 const BookTable = (props) => {
     const [dataBooks, setDataBooks] = useState([]);
@@ -16,6 +17,9 @@ const BookTable = (props) => {
     const [dataDetail, setDataDetail] = useState(null);
 
     const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+    const [dataUpdate, setDataUpdate] = useState();
+    const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
     useEffect(() => {
         loadBook();
     }, [current, pageSize]);
@@ -100,7 +104,13 @@ const BookTable = (props) => {
             key: "action",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "20px" }}>
-                    <EditOutlined style={{ cursor: "pointer", color: "orange" }} />
+                    <EditOutlined
+                        style={{ cursor: "pointer", color: "orange" }}
+                        onClick={() => {
+                            setDataUpdate(record);
+                            setIsModalUpdateOpen(true);
+                        }}
+                    />
                     <Popconfirm
                         title="Delete this book"
                         description="Are you sure to delete this book?"
@@ -174,6 +184,13 @@ const BookTable = (props) => {
             <CreateBookUncontrol
                 isCreateOpen={isCreateOpen}
                 setIsCreateOpen={setIsCreateOpen}
+                loadBook={loadBook}
+            />
+            <UpdateBookControl
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
+                isModalUpdateOpen={isModalUpdateOpen}
+                setIsModalUpdateOpen={setIsModalUpdateOpen}
                 loadBook={loadBook}
             />
         </>
