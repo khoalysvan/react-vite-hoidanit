@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CreateBookControl from "./create.book.control";
 import CreateBookUncontrol from "./create.book.uncontrol";
 import UpdateBookControl from "./update.book.control";
+import UpdateBookUncontrol from "./update.book.uncontrol";
 
 const BookTable = (props) => {
     const [dataBooks, setDataBooks] = useState([]);
@@ -32,20 +33,19 @@ const BookTable = (props) => {
         setTotal(res.data.meta.total);
     };
     const handleDeleteBook = async (id) => {
-        alert("me");
-        // const res = await deleteBookAPI(id);
-        // if (res.data) {
-        //     notification.success({
-        //         message: "Delete Book",
-        //         description: "Xóa book thành công",
-        //     });
-        //     await loadBook();
-        // } else {
-        //     notification.error({
-        //         message: "Error delete book",
-        //         description: JSON.stringify(res.message),
-        //     });
-        // }
+        const res = await deleteBookAPI(id);
+        if (res.data) {
+            notification.success({
+                message: "Delete Book",
+                description: "Xóa book thành công",
+            });
+            await loadBook();
+        } else {
+            notification.error({
+                message: "Error delete book",
+                description: JSON.stringify(res.message),
+            });
+        }
     };
     const columns = [
         {
@@ -116,7 +116,6 @@ const BookTable = (props) => {
                         description="Are you sure to delete this book?"
                         placement="left"
                         onConfirm={() => handleDeleteBook(record._id)}
-                        // onCancel={cancel}
                         okText="Yes"
                         cancelText="No"
                     >
@@ -186,7 +185,14 @@ const BookTable = (props) => {
                 setIsCreateOpen={setIsCreateOpen}
                 loadBook={loadBook}
             />
-            <UpdateBookControl
+            {/* <UpdateBookControl
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
+                isModalUpdateOpen={isModalUpdateOpen}
+                setIsModalUpdateOpen={setIsModalUpdateOpen}
+                loadBook={loadBook}
+            /> */}
+            <UpdateBookUncontrol
                 dataUpdate={dataUpdate}
                 setDataUpdate={setDataUpdate}
                 isModalUpdateOpen={isModalUpdateOpen}
